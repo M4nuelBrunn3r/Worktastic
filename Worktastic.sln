@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worktastic", "Worktastic\Worktastic.csproj", "{86A34B34-9FAF-4BC0-8FD5-F2558A9B97A6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86A34B34-9FAF-4BC0-8FD5-F2558A9B97A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86A34B34-9FAF-4BC0-8FD5-F2558A9B97A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86A34B34-9FAF-4BC0-8FD5-F2558A9B97A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86A34B34-9FAF-4BC0-8FD5-F2558A9B97A6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02F357F6-A635-4183-B783-2353389D1CB8}
+	EndGlobalSection
+EndGlobal
