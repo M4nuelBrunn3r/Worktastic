@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Worktastic.Models;
@@ -19,8 +21,18 @@ namespace Worktastic.Controllers
             return View();
         }
 
-        public IActionResult CreateEditJob(JobPosting jobPosting)
+        public IActionResult CreateEditJob(JobPosting jobPosting, IFormFile file)
         {
+            if (file != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    file.CopyTo(memoryStream);
+                    var imageBytes = memoryStream.ToArray();
+                    jobPosting.CompanyImage = imageBytes;
+                }
+            }
+
             // TOTO: write job posting to db
 
             return RedirectToAction(nameof(Index));
