@@ -17,6 +17,6 @@ namespace Worktastic.Models
         public string ContactPhone { get; set; }
         public string ContactMail { get; set; }
         public string ContactWebsite { get; set; }
-        public byte[] ContactImage { get; set; }
+        public byte[] CompanyImage { get; set; }
     }
 }
