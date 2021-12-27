@@ -1,7 +1,94 @@
-﻿@{
+﻿@model List<JobPosting>
+@{
     ViewData["Title"] = "Job Übersicht";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Alle Jobs</h1>
+<div class="jumbotron bg-primary">
+    <div class="display-1 text-white text-center">
+        Worktastic
+    </div>
 </div>
+
+<h4>
+    Finde einen Traumjob in deiner Nähe!
+</h4>
+
+<div class="row mt-4">
+    <div class="col">
+        <input id="inputQuery" class="form-control-lg form-control" type="text" placeholder="Wonach suchst du?" />
+    </div>
+</div>
+
+<div class="text-center mt-2">
+    <button onclick="onClickSearch()" class="btn btn-lg btn-primary">Suchen</button>
+</div>
+
+<hr />
+
+<!-- Partial list to show job postings -->
+<div id="partialList">
+
+</div>
+
+<!-- Modal dialog to show details of job posting -->
+<div class="modal fade" id="modalJobPosting" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <img id="modalImage" class="img-fluid" src=""/>
+
+                <div id="modalDescription">
+                </div>
+
+                <div id="modalSalary" class="mt-2">
+                </div>
+
+                <hr />
+
+                <div id="modalContact">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        $('#partialList').load("/home/GetJobPostingsPartial/");
+
+        function onClickSearch() {
+            var query = $('#inputQuery').val();
+            $('#partialList').load("/home/GetJobPostingsPartial?query=" + query);
+        }
+
+        function showModal(id) {
+            // Backend call to get job posting by id
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetJobPosting")",
+                data: { id: id },
+                success: function (data) {
+
+                    $('#modalImage').attr('src', `data:image/png;base64,${data.companyImage}`);
+
+                    $('#modalTitle').text(data.jobTitle);
+                    $('#modalDescription').text(data.description);
+                    $('#modalContact').text('Kontakt: ' + data.contactMail);
+                    $('#modalSalary').text('Jahresgehalt: ' + data.salary + '€');
+
+                    $('#modalJobPosting').modal('show');
+                }
+            });
+        }
+
+    </script>
+}

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using Worktastic.Models;
 
 namespace Worktastic.Controllers
 {
+    [Authorize]
     public class JobPostingController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -30,6 +32,12 @@ namespace Worktastic.Controllers
             if (id != 0)
             {
                 var jobPostingFromDb = _context.JobPostings.SingleOrDefault(x => x.Id == id);
+
+                if (jobPostingFromDb.OwnerUsername != User.Identity.Name)
+                {
+                    return Unauthorized();
+                }
+
                 if (jobPostingFromDb != null)
                 {
                     return View(jobPostingFromDb);
@@ -88,7 +96,8 @@ namespace Worktastic.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult DeleteJobPosting(int id)
+        [HttpPost]
+        public IActionResult DeleteJobPostingById(int id)
         {
             if (id == 0)
             {
@@ -105,7 +114,7 @@ namespace Worktastic.Controllers
             _context.JobPostings.Remove(jobPostingFromDb);
             _context.SaveChanges();
 
-            return RedirectToAction(nameof(Index));
+            return Ok();
         }
     }
 }
