@@ -1,7 +1,42 @@
-﻿@{
+﻿@model List<JobPosting>
+@{
     ViewData["Title"] = "Job Übersicht";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Alle Jobs</h1>
+<div class="jumbotron bg-primary">
+    <div class="display-1 text-white text-center">
+        Worktastic
+    </div>
+</div>
+
+<h4>
+    Finde einen Traumjob in deiner Nähe!
+</h4>
+
+<div class="row mt-4">
+    <div class="col">
+        <input class="form-control-lg form-control" type="text" placeholder="Wonach suchst du?" />
+    </div>
+</div>
+
+<div class="text-center mt-2">
+    <button class="btn btn-lg btn-primary">Suchen</button>
+</div>
+
+<hr />
+
+<div class="list-group mt-4">
+    @{
+        foreach (var jobPosting in Model)
+        {
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">@jobPosting.JobTitle</h5>
+                    <small>@jobPosting.JobLocation</small>
+                </div>
+                <p class="mb-1">@jobPosting.CompanyName</p>
+                <small>Start: @jobPosting.StartDate.ToShortDateString()</small>
+            </a>
+        }
+    }
 </div>
