@@ -15,34 +15,22 @@
 
 <div class="row mt-4">
     <div class="col">
-        <input class="form-control-lg form-control" type="text" placeholder="Wonach suchst du?" />
+        <input id="inputQuery" class="form-control-lg form-control" type="text" placeholder="Wonach suchst du?" />
     </div>
 </div>
 
 <div class="text-center mt-2">
-    <button class="btn btn-lg btn-primary">Suchen</button>
+    <button onclick="onClickSearch()" class="btn btn-lg btn-primary">Suchen</button>
 </div>
 
 <hr />
 
-<div class="list-group mt-4">
-    @{
-        foreach (var jobPosting in Model)
-        {
-            <a href="#" onclick="showModal(@jobPosting.Id)" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">@jobPosting.JobTitle</h5>
-                    <small>@jobPosting.JobLocation</small>
-                </div>
-                <p class="mb-1">@jobPosting.CompanyName</p>
-                <small>Start: @jobPosting.StartDate.ToShortDateString()</small>
-            </a>
-        }
-    }
+<!-- Partial list to show job postings -->
+<div id="partialList">
+
 </div>
 
-
-<!-- Modal -->
+<!-- Modal dialog to show details of job posting -->
 <div class="modal fade" id="modalJobPosting" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -74,6 +62,13 @@
 
 @section Scripts {
     <script>
+
+        $('#partialList').load("/home/GetJobPostingsPartial/");
+
+        function onClickSearch() {
+            var query = $('#inputQuery').val();
+            $('#partialList').load("/home/GetJobPostingsPartial?query=" + query);
+        }
 
         function showModal(id) {
             // Backend call to get job posting by id

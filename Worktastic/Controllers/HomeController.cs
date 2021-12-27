@@ -23,8 +23,7 @@ namespace Worktastic.Controllers
 
         public IActionResult Index()
         {
-            var allJobPostings = _context.JobPostings.ToList();
-            return View(allJobPostings);
+            return View();
         }
 
         public IActionResult Privacy()
@@ -54,6 +53,24 @@ namespace Worktastic.Controllers
             }
 
             return Ok(jobPostingFromDb);
+        }
+
+        public IActionResult GetJobPostingsPartial(string query)
+        {
+            List<JobPosting> jobPosting = new List<JobPosting>();
+
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                jobPosting = _context.JobPostings.ToList();
+            }
+            else
+            {
+                jobPosting = _context.JobPostings
+                    .Where(x => x.JobTitle.ToLower().Contains(query.ToLower()))
+                    .ToList();
+            }
+
+            return PartialView("_JobPostingListPartial", jobPosting);
         }
     }
 }
