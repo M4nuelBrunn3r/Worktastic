@@ -70,6 +70,7 @@ namespace Worktastic
             });
 
             CreateRole(serviceProvider, "Admin").Wait();
+            CreateDefaultUser(serviceProvider, "Admin", "admin@worktastic.com", "Test1.").Wait();
         }
 
         public async Task CreateRole(IServiceProvider serviceProvider, string roleName)
@@ -84,6 +85,28 @@ namespace Worktastic
             }
 
             await roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+
+        public async Task CreateDefaultUser(IServiceProvider serviceProvider, string roleName, string userName, string password)
+        {
+            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+
+            var user = await userManager.FindByNameAsync(userName);
+
+            if (user == null)
+            {
+                var newUser = new IdentityUser()
+                {
+                    UserName = userName,
+                    Email = userName
+                };
+
+                await userManager.CreateAsync(newUser, password);
+            }
+
+            user = await userManager.FindByNameAsync(userName);
+
+            await userManager.AddToRoleAsync(user, roleName);
         }
     }
 }
